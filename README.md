@@ -1,15 +1,35 @@
-# Basic Sample Hardhat Project
+# Basic Upgradable Contract Exmaple
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+First install dependencies using `npm i`  
+Compile contract `npx hardhat compile`
 
-Try running some of the following tasks:
+Deploy the intial contract Box using `npx hardhat run scripts/deploy.js`
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+### Pre-Update Testing
+
+`npx hardhat console`
+> const Box = await ethers.getContractFactory("Box")  
+
+> const box = await Box.attach("0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9")  
+
+> (await box.retrieve()).toString()  
+
+Upgrade using `npx hardhat run scripts/upgrade.js`
+
+### PostUpdate
+`npx hardhat console --network rinkeby`
+> const BoxV2 = await ethers.getContractFactory("BoxV2")
+
+> const boxV2 = await BoxV2.attach("0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9")
+
+> (await boxV2.retrieve()).toString()
+
+> await boxV2.increment()
+
+> (await boxV2.retrieve()).toString()
+
+
+The above commands are for local network setup. 
+
+## Reference
+https://forum.openzeppelin.com/t/openzeppelin-upgrades-step-by-step-tutorial-for-hardhat/3580
